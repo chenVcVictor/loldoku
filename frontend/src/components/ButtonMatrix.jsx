@@ -105,7 +105,7 @@ function ButtonMatrix({champNames}) {
           setTriggerPopup(false)
           console.log("DEBUG--Inside ButtonMatrix: " + selectedChamp)
 
-          updateLabelMap(selectedKey, selectedChamp)
+          updateLabelMap(selectedKey, champ)
         }}
         > </SelectChampPopup>
       </>
