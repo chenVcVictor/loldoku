@@ -26,7 +26,7 @@ function createMap(numRows, numCols) {
 
 
 
-function ButtonMatrix({champNames}) {
+function ButtonMatrix({champNames, labels}) {
     const size = 4
     const [selectedChamp, setSelectedChamp] = useState("");   // tracks which champion was selected from popup
 
@@ -78,7 +78,7 @@ function ButtonMatrix({champNames}) {
           if (row == 0 && col == 0) {
             matrix.push(labelButton(row, col, ""))
           } else {
-            matrix.push(labelButton(row, col, "LABEL"))
+            matrix.push(labelButton(row, col, labels[`${row}-${col}`]))
           }
 
         }

@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'corsheaders',
     # Internal Apps
     'loldoku',
-
+    # Other Apps
+    # 'loldoku.apps.LoldokuConfig',
 ]
 
 MIDDLEWARE = [

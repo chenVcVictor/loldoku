@@ -6,20 +6,26 @@ import {ButtonMatrix} from './components/index.js'
 
 function App() {
 
-  const [championData, setChampionData] = useState({})      // json obj. includes champion data
+  const [gameData, setGameData] = useState({})      // json obj. includes champion data
+  const [champNames, setChampNames] = useState([])
+  const [labels, setLabels] = useState({})
 
   const patchVersion = '14.3.1'                             // game version
 
   // fetch champion data
   useEffect(() => {
-    fetch(`https://ddragon.leagueoflegends.com/cdn/${patchVersion}/data/en_US/champion.json`)
+    fetch(`http://127.0.0.1:8000/loldoku/gameData/`)
     .then((res) => res.json())
     .then((dataObject) => {
-      setChampionData(dataObject['data'])
+      setChampNames(dataObject.championNames);
+      setLabels(dataObject.labels);
     })
     }, [])
-
-  const champNames = Object.values(championData).map(champ => champ.name);  // array of champion name
+  
+  console.log("HI HI HI ")
+  // console.log(gameData)
+  // const champNames = Object.values(gameData["championNames"]);  // array of champion name
+  // const labels = Object.values(gameData["labels"])             // Dictionary of labels
   // console.log(champNames)
   
   return (
@@ -38,6 +44,7 @@ function App() {
       >
         <ButtonMatrix
         champNames={champNames}
+        labels = {labels}
         >
 
         </ButtonMatrix>
