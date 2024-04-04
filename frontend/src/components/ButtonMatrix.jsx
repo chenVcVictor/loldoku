@@ -13,47 +13,53 @@ import {SelectChampPopup} from './index.js'
  */
 
 
-function createMap(numRows, numCols) {
-  const initMap = {}
-  for (let i = 0; i < numRows; i++) {
-    for (let j = 0; j < numCols; j++) {
-      initMap[`${i}-${j}`] = "";
-    }
-  }
+// function createMap(numRows, numCols) {
+//   const initMap = {}
+//   for (let i = 0; i < numRows; i++) {
+//     for (let j = 0; j < numCols; j++) {
+//       initMap[`${i}-${j}`] = "";
+//     }
+//   }
 
-  return initMap;
-}
+//   return initMap;
+// }
 
 
 
-function ButtonMatrix({champNames, labels}) {
+function ButtonMatrix({champNames, labels, labelMap, updateLabelMap, correctedMatrix, hasSubmitted}) {
     const size = 4
     const [selectedChamp, setSelectedChamp] = useState("");   // tracks which champion was selected from popup
 
     const [selectedKey, setSelectedKey] = useState("");       // tracks selected button's key
     const [triggerPopup, setTriggerPopup] = useState(false)   // determines if popup should be open or not
 
-    const [labelMap, setLabelMap] = useState(createMap(size, size)) // map of button key to labels
 
-    // FROM ONLINE ON HOW TO UPDATE A MAP
-    const updateLabelMap = (key, value) => {
-      setLabelMap(prevMap => ({
-        ...prevMap, // Spread the previous map to keep existing entries
-        [key]: value, // Update the specific key with the new value
-      }))}
-    
+    const setBgColor = (row, col) => {
+      console.log(hasSubmitted)
+      if (hasSubmitted == true) {
+        if (correctedMatrix[row - 1][col - 1] == true) {
+          return 'bg-green-500'
+        } 
+        else {
+          return 'bg-red-500'
+        }
+      }
+      return ''
+    }
+
+
     // Clickable regular button
     const regButton = (row, col) => (
       <button 
       key={`${row}-${col}`}
-      className="w-24 h-24 border-2 hover:bg-sky-700"
+      className= {`w-24 h-24 border-2 hover:bg-sky-700 ${setBgColor(row,col)}`}
       onClick={() => {
         setTriggerPopup(true)
         setSelectedKey(`${row}-${col}`)
       }}
       >
         {/* {`${row},${col}`} */}
-        {`${labelMap[`${row}-${col}`]}`}
+        {`${labelMap[`${row}`][`${col}`]}`}
       </button>
     );
 
@@ -79,6 +85,7 @@ function ButtonMatrix({champNames, labels}) {
             matrix.push(labelButton(row, col, ""))
           } else {
             matrix.push(labelButton(row, col, labels[`${row}-${col}`]))
+            // updateLabelMap(`${row}-${col}`, labels[`${row}-${col}`])
           }
 
         }
@@ -91,7 +98,7 @@ function ButtonMatrix({champNames, labels}) {
     
     return (
       <>
-        <div className="rounded-lg grid grid-cols-4 justify-center items-center bg-slate-900 text-slate-200 mr-5 p-10">
+        <div className="rounded-lg grid grid-cols-4 justify-center items-center bg-slate-900 text-slate-200 p-5 mr-4 ml-2">
           {matrix}
         </div>
         <SelectChampPopup 
@@ -103,7 +110,7 @@ function ButtonMatrix({champNames, labels}) {
         submitSelectedChamp = {(champ) => {
           setSelectedChamp(champ)
           setTriggerPopup(false)
-          console.log("DEBUG--Inside ButtonMatrix: " + selectedChamp)
+          // console.log("DEBUG--Inside ButtonMatrix: " + selectedChamp)
 
           updateLabelMap(selectedKey, champ)
         }}

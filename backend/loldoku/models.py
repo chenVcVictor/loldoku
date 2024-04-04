@@ -7,8 +7,8 @@ class Game(models.Model):
 
 
 class ChampionInfo(models.Model):
-    name = models.CharField(max_length=100)
-    # title = models.CharField()
+    name = models.CharField(max_length=100, unique = True, primary_key=True)
+    title = models.CharField(max_length=100, default='')
     roles = models.JSONField()
     region = models.CharField(max_length=100)
     releasedYear = models.IntegerField()

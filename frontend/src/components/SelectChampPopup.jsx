@@ -16,9 +16,7 @@ import { useState, useRef } from 'react';
 
 /**
  * CURRENT BUGS:
- * 1. Selected values are one step behind
- * --Solution: Call useEffect somehow so the frame updates immediately? 
- * --Solution: look into useRef?
+ * 
  */
 
 function SelectChampPopup({ trigger, setTrigger, champOptions, selectedChamp, submitSelectedChamp}) {
@@ -42,7 +40,7 @@ function SelectChampPopup({ trigger, setTrigger, champOptions, selectedChamp, su
               value = {currentOption}
               onChange = {(e) => {
                 setCurrentOption(e.target.value)
-                console.log("DEBUG--Inside SELECT. Value of e.target.value: " + e.target.value)
+                // console.log("DEBUG--Inside SELECT. Value of e.target.value: " + e.target.value)
                 // console.log("DEBUG--INSIDE SELECT. Value of currentOption:  " + currentOption)
               }}
               >
@@ -54,7 +52,7 @@ function SelectChampPopup({ trigger, setTrigger, champOptions, selectedChamp, su
               <button
               className = "border-2 rounded-lg bg-white hover:bg-zinc-400 px-1 m-1"
               onClick={() => {
-                console.log("DEBUG--. Value of currentOption:  " + currentOption)
+                // console.log("DEBUG--. Value of currentOption:  " + currentOption)
                 submitSelectedChamp(currentOption)
                 setCurrentOption('')
               }}

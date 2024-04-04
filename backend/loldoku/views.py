@@ -7,8 +7,19 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 
 
+
+
+labels = {
+    "0-1":"Tank", 
+    "0-2":"Mage", 
+    "0-3":"Assassin", 
+    "1-0":"Demacia", 
+    "2-0":"Demacia", 
+    "3-0":"Demacia", 
+}
+
 # Create your views here.
-class GameView(APIView):
+class GameInitView(APIView):
 
     def generateLabels():
         return None
@@ -18,14 +29,6 @@ class GameView(APIView):
     def get(self, request):
         champions = ChampionInfo.objects.all()
         champNames = [champ.name for champ in champions]
-        labels = {
-            "0-1":"Tank", 
-            "0-2":"Mage", 
-            "0-3":"Assassin", 
-            "1-0":"Demacia", 
-            "2-0":"Demacia", 
-            "3-0":"Demacia", 
-        }
 
         gameData = {}
         gameData['championNames'] = champNames
@@ -33,6 +36,33 @@ class GameView(APIView):
         return JsonResponse(gameData)
 
 
+class ValidateAnswerView(APIView):
+    
     # Validate whether puzzle is complete and returns respective response
     def post(self, request):
-        pass
+        labelMap = request.data.get('labelMap')
+        res = []
+
+
+        for i in range(1, len(labelMap)):
+            curRow = []
+            for j in range(1, len(labelMap[i])):
+                if labelMap[i][j] == '':
+                    curRow.append(False)
+                    continue
+
+                champ = ChampionInfo.objects.get(name = labelMap[i][j])
+
+                correctRegion = labels[str(i) + '-' + str(0)]
+                correctRoles = labels[str(0) + '-' + str(j)]
+                if champ.region == correctRegion and correctRoles in champ.roles:
+                    curRow.append(True)
+                else:
+                    curRow.append(False)
+                    # curRow.append(champ.region + " " + correctRegion)
+            res.append(curRow)
+        
+        
+        
+        # Example response
+        return JsonResponse({'correctedMatrix': res})
