@@ -14,8 +14,8 @@ labels = {
     "0-2":"Mage", 
     "0-3":"Assassin", 
     "1-0":"Demacia", 
-    "2-0":"Demacia", 
-    "3-0":"Demacia", 
+    "2-0":"Noxus", 
+    "3-0":"Void", 
 }
 
 # Create your views here.
@@ -42,13 +42,16 @@ class ValidateAnswerView(APIView):
     def post(self, request):
         labelMap = request.data.get('labelMap')
         res = []
+        champRegions = []
 
 
         for i in range(1, len(labelMap)):
             curRow = []
+            regionsRow = []
             for j in range(1, len(labelMap[i])):
                 if labelMap[i][j] == '':
                     curRow.append(False)
+                    regionsRow.append('')
                     continue
 
                 champ = ChampionInfo.objects.get(name = labelMap[i][j])
@@ -59,10 +62,12 @@ class ValidateAnswerView(APIView):
                     curRow.append(True)
                 else:
                     curRow.append(False)
-                    # curRow.append(champ.region + " " + correctRegion)
+                regionsRow.append(champ.name + ": " + champ.region + " " + correctRegion)
+            
+            champRegions.append(regionsRow)
             res.append(curRow)
         
         
         
         # Example response
-        return JsonResponse({'correctedMatrix': res})
+        return JsonResponse({'correctedMatrix': res, 'champRegions: ': champRegions})
