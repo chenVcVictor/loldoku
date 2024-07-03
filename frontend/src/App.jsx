@@ -15,7 +15,6 @@ function createMap(numRows, numCols) {
       initMap[`${i}-${j}`] = "";
     }
   }
-
   return initMap;
 }
 
@@ -87,16 +86,9 @@ function App() {
   return (
     <>
       <div
-        className="w-full h-screen flex justify-center items-center"
-        style={{
-          backgroundImage:
-            "url(https://cdna.artstation.com/p/assets/images/images/001/207/466/large/suke-22.jpg?1442249023)",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
+        class = "backgroundImage"
       >
-        <div className="bg-slate-900 rounded-lg flex flex-col items-center">
+        <div class = "gameContainer">
           <ButtonMatrix
             champNames={champNames}
             labels={labels}
@@ -107,7 +99,7 @@ function App() {
           ></ButtonMatrix>
           {ansAllCorrect && <Confetti />}
           <button
-            className=" rounded-lg ml-10 w-20 h-15 border-2 hover:bg-slate-400 bg-slate-100 my-5"
+            class = "submitButton"
             onClick={submit}
           >
             Submit

@@ -41,9 +41,9 @@ function ButtonMatrix({
     console.log(hasSubmitted);
     if (hasSubmitted == true) {
       if (correctedMatrix[row - 1][col - 1] == true) {
-        return "bg-green-500";
+        return "button-color-correct";
       } else {
-        return "bg-red-500";
+        return "button-color-incorrect";
       }
     }
     return "";
@@ -53,7 +53,8 @@ function ButtonMatrix({
   const regButton = (row, col) => (
     <button
       key={`${row}-${col}`}
-      className={`w-24 h-24 border-2 hover:bg-sky-700 ${setBgColor(row, col)}`}
+      className = {`regButton ${setBgColor(row, col)}`}
+      // className={`w-24 h-24 border-2 hover:bg-sky-700 ${setBgColor(row, col)}`}
       onClick={() => {
         setTriggerPopup(true);
         setSelectedKey(`${row}-${col}`);
@@ -66,7 +67,10 @@ function ButtonMatrix({
 
   // Non-clickable label button
   const labelButton = (row, col, text) => (
-    <button key={`${row}-${col}`} className="w-12 h-12" disabled={true}>
+    <button 
+    key={`${row}-${col}`} 
+    className="labelButton " 
+    disabled={true}>
       {`${text}`}
     </button>
   );
@@ -91,21 +95,21 @@ function ButtonMatrix({
     }
   }
 
+
+  // "rounded-lg grid grid-cols-4 justify-center items-center bg-slate-900 text-slate-200 p-5 mr-4 ml-2"
   return (
     <>
-      <div className="rounded-lg grid grid-cols-4 justify-center items-center bg-slate-900 text-slate-200 p-5 mr-4 ml-2">
+      <div className = "buttonMatrix">
         {matrix}
       </div>
       <SelectChampPopup
         trigger={triggerPopup}
         setTrigger={setTriggerPopup}
-        // setTrigger = {setTrigger}
         champOptions={champNames}
         selectedChamp={selectedChamp}
         submitSelectedChamp={(champ) => {
           setSelectedChamp(champ);
           setTriggerPopup(false);
-          // console.log("DEBUG--Inside ButtonMatrix: " + selectedChamp)
 
           updateLabelMap(selectedKey, champ);
         }}
